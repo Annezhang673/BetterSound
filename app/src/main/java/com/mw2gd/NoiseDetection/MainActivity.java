@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         if (isMicrophonePresent()) {
             getMicrophonePermission();
         }
@@ -35,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         if (i == 0) {
             // Start audio Thread
             TextView audio_level = (TextView) findViewById(R.id.audio_level);
-            t1 = new audioThread(audio_level);
+            t1 = new audioThread(getApplicationContext(), audio_level);
             t1.start();
             i=1;
         }

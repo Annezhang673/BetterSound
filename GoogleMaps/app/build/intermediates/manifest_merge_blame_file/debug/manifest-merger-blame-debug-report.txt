@@ -1,0 +1,138 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.googlemaps"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="21"
+8-->/Users/mattwalters/AndroidStudioProjects/BetterSound/GoogleMaps/app/src/main/AndroidManifest.xml
+9        android:targetSdkVersion="32" />
+9-->/Users/mattwalters/AndroidStudioProjects/BetterSound/GoogleMaps/app/src/main/AndroidManifest.xml
+10
+11    <!-- Include required permissions for Google Maps API to run. -->
+12    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+12-->[com.google.android.gms:play-services-maps:17.0.1] /Users/mattwalters/.gradle/caches/transforms-3/25f30c9e92642e62c58deafce522c17a/transformed/play-services-maps-17.0.1/AndroidManifest.xml:23:5-79
+12-->[com.google.android.gms:play-services-maps:17.0.1] /Users/mattwalters/.gradle/caches/transforms-3/25f30c9e92642e62c58deafce522c17a/transformed/play-services-maps-17.0.1/AndroidManifest.xml:23:22-76
+13    <uses-permission android:name="android.permission.INTERNET" />
+13-->[com.google.android.gms:play-services-maps:17.0.1] /Users/mattwalters/.gradle/caches/transforms-3/25f30c9e92642e62c58deafce522c17a/transformed/play-services-maps-17.0.1/AndroidManifest.xml:24:5-67
+13-->[com.google.android.gms:play-services-maps:17.0.1] /Users/mattwalters/.gradle/caches/transforms-3/25f30c9e92642e62c58deafce522c17a/transformed/play-services-maps-17.0.1/AndroidManifest.xml:24:22-64
+14
+15    <uses-feature
+15-->[com.google.android.gms:play-services-maps:17.0.1] /Users/mattwalters/.gradle/caches/transforms-3/25f30c9e92642e62c58deafce522c17a/transformed/play-services-maps-17.0.1/AndroidManifest.xml:26:5-28:35
+16        android:glEsVersion="0x00020000"
+16-->[com.google.android.gms:play-services-maps:17.0.1] /Users/mattwalters/.gradle/caches/transforms-3/25f30c9e92642e62c58deafce522c17a/transformed/play-services-maps-17.0.1/AndroidManifest.xml:27:9-41
+17        android:required="true" />
+17-->[com.google.android.gms:play-services-maps:17.0.1] /Users/mattwalters/.gradle/caches/transforms-3/25f30c9e92642e62c58deafce522c17a/transformed/play-services-maps-17.0.1/AndroidManifest.xml:28:9-32
+18
+19    <queries>
+19-->[com.google.android.gms:play-services-maps:17.0.1] /Users/mattwalters/.gradle/caches/transforms-3/25f30c9e92642e62c58deafce522c17a/transformed/play-services-maps-17.0.1/AndroidManifest.xml:30:5-34:15
+20
+21        <!-- Needs to be explicitly declared on Android R+ -->
+22        <package android:name="com.google.android.apps.maps" />
+22-->[com.google.android.gms:play-services-maps:17.0.1] /Users/mattwalters/.gradle/caches/transforms-3/25f30c9e92642e62c58deafce522c17a/transformed/play-services-maps-17.0.1/AndroidManifest.xml:33:9-64
+22-->[com.google.android.gms:play-services-maps:17.0.1] /Users/mattwalters/.gradle/caches/transforms-3/25f30c9e92642e62c58deafce522c17a/transformed/play-services-maps-17.0.1/AndroidManifest.xml:33:18-61
+23    </queries>
+24
+25    <application
+25-->/Users/mattwalters/AndroidStudioProjects/BetterSound/GoogleMaps/app/src/main/AndroidManifest.xml:5:5-33:19
+26        android:allowBackup="true"
+26-->/Users/mattwalters/AndroidStudioProjects/BetterSound/GoogleMaps/app/src/main/AndroidManifest.xml:6:9-35
+27        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+27-->[androidx.core:core:1.7.0] /Users/mattwalters/.gradle/caches/transforms-3/5586099dc2be2a001572cf14c2426ba8/transformed/core-1.7.0/AndroidManifest.xml:24:18-86
+28        android:dataExtractionRules="@xml/data_extraction_rules"
+28-->/Users/mattwalters/AndroidStudioProjects/BetterSound/GoogleMaps/app/src/main/AndroidManifest.xml:7:9-65
+29        android:debuggable="true"
+30        android:fullBackupContent="@xml/backup_rules"
+30-->/Users/mattwalters/AndroidStudioProjects/BetterSound/GoogleMaps/app/src/main/AndroidManifest.xml:8:9-54
+31        android:icon="@mipmap/ic_launcher"
+31-->/Users/mattwalters/AndroidStudioProjects/BetterSound/GoogleMaps/app/src/main/AndroidManifest.xml:9:9-43
+32        android:label="@string/app_name"
+32-->/Users/mattwalters/AndroidStudioProjects/BetterSound/GoogleMaps/app/src/main/AndroidManifest.xml:10:9-41
+33        android:roundIcon="@mipmap/ic_launcher_round"
+33-->/Users/mattwalters/AndroidStudioProjects/BetterSound/GoogleMaps/app/src/main/AndroidManifest.xml:11:9-54
+34        android:supportsRtl="true"
+34-->/Users/mattwalters/AndroidStudioProjects/BetterSound/GoogleMaps/app/src/main/AndroidManifest.xml:12:9-35
+35        android:testOnly="true"
+36        android:theme="@style/Theme.GoogleMaps" >
+36-->/Users/mattwalters/AndroidStudioProjects/BetterSound/GoogleMaps/app/src/main/AndroidManifest.xml:13:9-48
+37        <meta-data
+37-->/Users/mattwalters/AndroidStudioProjects/BetterSound/GoogleMaps/app/src/main/AndroidManifest.xml:15:9-19:21
+38            android:name="com.google.android.geo.API_KEY"
+38-->/Users/mattwalters/AndroidStudioProjects/BetterSound/GoogleMaps/app/src/main/AndroidManifest.xml:16:13-58
+39            android:value="AIzaSyBHG45qteZlVaW3dsULq64wgqVmuG4jwnk" >
+39-->/Users/mattwalters/AndroidStudioProjects/BetterSound/GoogleMaps/app/src/main/AndroidManifest.xml:17:13-68
+40        </meta-data>
+41
+42        <activity
+42-->/Users/mattwalters/AndroidStudioProjects/BetterSound/GoogleMaps/app/src/main/AndroidManifest.xml:20:9-32:20
+43            android:name="com.example.googlemaps.MainActivity"
+43-->/Users/mattwalters/AndroidStudioProjects/BetterSound/GoogleMaps/app/src/main/AndroidManifest.xml:21:13-41
+44            android:exported="true" >
+44-->/Users/mattwalters/AndroidStudioProjects/BetterSound/GoogleMaps/app/src/main/AndroidManifest.xml:22:13-36
+45            <intent-filter>
+45-->/Users/mattwalters/AndroidStudioProjects/BetterSound/GoogleMaps/app/src/main/AndroidManifest.xml:23:13-27:29
+46                <action android:name="android.intent.action.MAIN" />
+46-->/Users/mattwalters/AndroidStudioProjects/BetterSound/GoogleMaps/app/src/main/AndroidManifest.xml:24:17-69
+46-->/Users/mattwalters/AndroidStudioProjects/BetterSound/GoogleMaps/app/src/main/AndroidManifest.xml:24:25-66
+47
+48                <category android:name="android.intent.category.LAUNCHER" />
+48-->/Users/mattwalters/AndroidStudioProjects/BetterSound/GoogleMaps/app/src/main/AndroidManifest.xml:26:17-77
+48-->/Users/mattwalters/AndroidStudioProjects/BetterSound/GoogleMaps/app/src/main/AndroidManifest.xml:26:27-74
+49            </intent-filter>
+50
+51            <meta-data
+51-->/Users/mattwalters/AndroidStudioProjects/BetterSound/GoogleMaps/app/src/main/AndroidManifest.xml:29:13-31:36
+52                android:name="android.app.lib_name"
+52-->/Users/mattwalters/AndroidStudioProjects/BetterSound/GoogleMaps/app/src/main/AndroidManifest.xml:30:17-52
+53                android:value="" />
+53-->/Users/mattwalters/AndroidStudioProjects/BetterSound/GoogleMaps/app/src/main/AndroidManifest.xml:31:17-33
+54        </activity>
+55        <!-- Needs to be explicitly declared on P+ -->
+56        <uses-library
+56-->[com.google.android.gms:play-services-maps:17.0.1] /Users/mattwalters/.gradle/caches/transforms-3/25f30c9e92642e62c58deafce522c17a/transformed/play-services-maps-17.0.1/AndroidManifest.xml:39:9-41:40
+57            android:name="org.apache.http.legacy"
+57-->[com.google.android.gms:play-services-maps:17.0.1] /Users/mattwalters/.gradle/caches/transforms-3/25f30c9e92642e62c58deafce522c17a/transformed/play-services-maps-17.0.1/AndroidManifest.xml:40:13-50
+58            android:required="false" />
+58-->[com.google.android.gms:play-services-maps:17.0.1] /Users/mattwalters/.gradle/caches/transforms-3/25f30c9e92642e62c58deafce522c17a/transformed/play-services-maps-17.0.1/AndroidManifest.xml:41:13-37
+59
+60        <activity
+60-->[com.google.android.gms:play-services-base:17.0.0] /Users/mattwalters/.gradle/caches/transforms-3/37044cb26fd9417f81e2bacc5fe4c71b/transformed/play-services-base-17.0.0/AndroidManifest.xml:23:9-26:75
+61            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+61-->[com.google.android.gms:play-services-base:17.0.0] /Users/mattwalters/.gradle/caches/transforms-3/37044cb26fd9417f81e2bacc5fe4c71b/transformed/play-services-base-17.0.0/AndroidManifest.xml:24:13-79
+62            android:exported="false"
+62-->[com.google.android.gms:play-services-base:17.0.0] /Users/mattwalters/.gradle/caches/transforms-3/37044cb26fd9417f81e2bacc5fe4c71b/transformed/play-services-base-17.0.0/AndroidManifest.xml:25:13-37
+63            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+63-->[com.google.android.gms:play-services-base:17.0.0] /Users/mattwalters/.gradle/caches/transforms-3/37044cb26fd9417f81e2bacc5fe4c71b/transformed/play-services-base-17.0.0/AndroidManifest.xml:26:13-72
+64
+65        <meta-data
+65-->[com.google.android.gms:play-services-basement:17.0.0] /Users/mattwalters/.gradle/caches/transforms-3/3eaa3902ba76e1010f8fcd1309708981/transformed/play-services-basement-17.0.0/AndroidManifest.xml:23:9-25:69
+66            android:name="com.google.android.gms.version"
+66-->[com.google.android.gms:play-services-basement:17.0.0] /Users/mattwalters/.gradle/caches/transforms-3/3eaa3902ba76e1010f8fcd1309708981/transformed/play-services-basement-17.0.0/AndroidManifest.xml:24:13-58
+67            android:value="@integer/google_play_services_version" />
+67-->[com.google.android.gms:play-services-basement:17.0.0] /Users/mattwalters/.gradle/caches/transforms-3/3eaa3902ba76e1010f8fcd1309708981/transformed/play-services-basement-17.0.0/AndroidManifest.xml:25:13-66
+68
+69        <provider
+69-->[androidx.emoji2:emoji2:1.0.0] /Users/mattwalters/.gradle/caches/transforms-3/4b580972190c9e236a669c6a1f1f8a9e/transformed/emoji2-1.0.0/AndroidManifest.xml:26:9-34:20
+70            android:name="androidx.startup.InitializationProvider"
+70-->[androidx.emoji2:emoji2:1.0.0] /Users/mattwalters/.gradle/caches/transforms-3/4b580972190c9e236a669c6a1f1f8a9e/transformed/emoji2-1.0.0/AndroidManifest.xml:27:13-67
+71            android:authorities="com.example.googlemaps.androidx-startup"
+71-->[androidx.emoji2:emoji2:1.0.0] /Users/mattwalters/.gradle/caches/transforms-3/4b580972190c9e236a669c6a1f1f8a9e/transformed/emoji2-1.0.0/AndroidManifest.xml:28:13-68
+72            android:exported="false" >
+72-->[androidx.emoji2:emoji2:1.0.0] /Users/mattwalters/.gradle/caches/transforms-3/4b580972190c9e236a669c6a1f1f8a9e/transformed/emoji2-1.0.0/AndroidManifest.xml:29:13-37
+73            <meta-data
+73-->[androidx.emoji2:emoji2:1.0.0] /Users/mattwalters/.gradle/caches/transforms-3/4b580972190c9e236a669c6a1f1f8a9e/transformed/emoji2-1.0.0/AndroidManifest.xml:31:13-33:52
+74                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+74-->[androidx.emoji2:emoji2:1.0.0] /Users/mattwalters/.gradle/caches/transforms-3/4b580972190c9e236a669c6a1f1f8a9e/transformed/emoji2-1.0.0/AndroidManifest.xml:32:17-75
+75                android:value="androidx.startup" />
+75-->[androidx.emoji2:emoji2:1.0.0] /Users/mattwalters/.gradle/caches/transforms-3/4b580972190c9e236a669c6a1f1f8a9e/transformed/emoji2-1.0.0/AndroidManifest.xml:33:17-49
+76            <meta-data
+76-->[androidx.lifecycle:lifecycle-process:2.4.0] /Users/mattwalters/.gradle/caches/transforms-3/dd1064e81b3445eb173cd45521bfd469/transformed/lifecycle-process-2.4.0/AndroidManifest.xml:31:13-33:52
+77                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+77-->[androidx.lifecycle:lifecycle-process:2.4.0] /Users/mattwalters/.gradle/caches/transforms-3/dd1064e81b3445eb173cd45521bfd469/transformed/lifecycle-process-2.4.0/AndroidManifest.xml:32:17-78
+78                android:value="androidx.startup" />
+78-->[androidx.lifecycle:lifecycle-process:2.4.0] /Users/mattwalters/.gradle/caches/transforms-3/dd1064e81b3445eb173cd45521bfd469/transformed/lifecycle-process-2.4.0/AndroidManifest.xml:33:17-49
+79        </provider>
+80    </application>
+81
+82</manifest>
