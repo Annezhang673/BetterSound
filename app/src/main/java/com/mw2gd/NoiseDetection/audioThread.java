@@ -78,7 +78,10 @@ public class audioThread implements Runnable {
              */
             level = getDecibels();
 
-            if (flush == 10) {
+            /*
+             * Delete audio file every once in a while, to save memory
+             */
+            if (flush == 20) {
                 File myObj = new File(context.getExternalCacheDir().getAbsolutePath() + "/tmp.3gp");
                 myObj.delete();
 
@@ -96,7 +99,7 @@ public class audioThread implements Runnable {
             if (audio_level != null ) {
                 audio_level.setText(String.format(Locale.getDefault(), "%.2f", level));
             }
-
+            
             try {
                 Thread.sleep(500);
             }
