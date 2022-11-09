@@ -5,8 +5,10 @@ import android.media.MediaRecorder;
 import android.util.Log;
 import android.widget.TextView;
 import java.lang.Math;
+import java.io.File;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -14,11 +16,12 @@ public class audioThread implements Runnable {
     private TextView audio_level;   // View that displays current decibels
     private Thread worker;          // Runtime Thread
     private MediaRecorder recorder; // Used to record audio and video
-    private double level = 0.000001;          // Field to hold decibel value
+    private double level = 0.0;          // Field to hold decibel value
     private Context context;
     private static double mEMA = 0.0;
-    static final private double EMA_FILTER = 0.6;
-    ArrayList<Double> tmp = new ArrayList<Double>(100);
+    static final private double EMA_FILTER = 0.4;
+    private int flush = 0;
+//    ArrayList<Double> tmp = new ArrayList<Double>(100);
 
     /*
      * Constructor is passed the relevant TextView
@@ -64,16 +67,30 @@ public class audioThread implements Runnable {
             e.printStackTrace();
         }
 
-
         /*
          * Runs until interrupt is encountered
          */
         while(!Thread.currentThread().isInterrupted()) {
+            flush++;
+
             /*
              * Calculate Decibels
              */
             level = getDecibels();
 
+            if (flush == 10) {
+                File myObj = new File(context.getExternalCacheDir().getAbsolutePath() + "/tmp.3gp");
+                myObj.delete();
+
+                Log.i("SUCCESS", "File Deleted");
+                try{
+                    myObj.createNewFile();
+                }catch (IOException e) {
+                    Log.i("ERROR", "File not Created");
+                }
+
+                flush = 0;
+            }
 
             // update screen
             if (audio_level != null ) {
@@ -81,25 +98,27 @@ public class audioThread implements Runnable {
             }
 
             try {
-                Thread.sleep(750);
+                Thread.sleep(500);
             }
             catch (InterruptedException e) {
                 break;
             }
         }
 
-        Double ave = 0.0;
-        for (int i = 0; i <10; i++) {
-            ave += tmp.get(i);
-        }
-        Log.i("TAG", "AVE=" + ave/10);
+//        // Wanted to check what ampl should be...
+//        Double ave = 0.0;
+//        for (int i = 0; i <10; i++) {
+//            ave += tmp.get(i);
+//        }
+//        Log.i("TAG", "AVE=" + ave/10);
+
         recorder.stop();
         recorder.release();
     }
 
     private double getDecibels(){
         double amp = getAmplitudeEMA();
-        tmp.add(0, amp);
+        //tmp.add(0, amp);
         double ampl = 2.330386054706662; // reference amplitude; Accuracy depends on this
 
         double dec = 20 * Math.log10(amp / ampl);
