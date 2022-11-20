@@ -21,7 +21,7 @@ public class audioThread implements Runnable {
     private static double mEMA = 0.0;
     static final private double EMA_FILTER = 0.4;
     private int flush = 0;
-//    ArrayList<Double> tmp = new ArrayList<Double>(100);
+    ArrayList<Double> tmp = new ArrayList<Double>(100);
 
     /*
      * Constructor is passed the relevant TextView
@@ -96,39 +96,76 @@ public class audioThread implements Runnable {
             }
 
             // update screen
-            if (audio_level != null ) {
+            if (audio_level != null) {
                 audio_level.setText(String.format(Locale.getDefault(), "%.2f", level));
             }
-            
+
             try {
-                Thread.sleep(500);
+                Thread.sleep(400);
             }
             catch (InterruptedException e) {
                 break;
             }
         }
 
-//        // Wanted to check what ampl should be...
-//        Double ave = 0.0;
-//        for (int i = 0; i <10; i++) {
-//            ave += tmp.get(i);
-//        }
-//        Log.i("TAG", "AVE=" + ave/10);
+        // Wanted to check what ampl should be...
+        Double ave = 0.0;
+        for (int i = 0; i <10; i++) {
+            ave += tmp.get(i);
+        }
+        Log.i("TAG", "RAW AVE=" + ave/10);
 
         recorder.stop();
         recorder.release();
     }
 
     private double getDecibels(){
-        double amp = getAmplitudeEMA();
-        //tmp.add(0, amp);
-        double ampl = 2.330386054706662; // reference amplitude; Accuracy depends on this
+        double amp = getAmplitudeEMA(); // ranges from 0-32767
+        tmp.add(0, amp);
 
-        double dec = 20 * Math.log10(amp / ampl);
-        Log.i("TAG", "AMP="+ amp);
-        if (Double.isInfinite(dec)) {
-            dec = 0.0;
+        double dec = 0;
+
+        if (amp <=1.1) dec = 0;
+        else if (amp <= 6584.41) {
+            dec=8.58136*Math.log(0.997309*amp);
         }
+        else {
+            dec=6.16788e-8*(amp*amp) - 0.000809727*amp + 77.8971;
+        }
+
+//        if (amp <= 65.76481596) {
+//            dec = 0.471377*amp;
+//        }
+//        else if (amp <= 80.62998095) {
+//            dec = 4.45546 + 0.403628*amp;
+//        }
+//        else if (amp <= 157.7233429) {
+//            dec = 25.4954 + 0.142684*amp;
+//        }
+//        else if (amp <= 1143.042214) {
+//            dec = 45.879 + 0.0134474*amp;
+//        }
+//        else if (amp <= 2695.782844) {
+//            dec = 55.6921 + 0.00486237*amp;
+//        }
+//        else if (amp <= 8312.673073) {
+//            dec = 65.7284 + 0.00113942*amp;
+//        }
+//        else if (amp <= 15823.80865) {
+//            dec = 68.449 + 0.000812128*amp;
+//        }
+//        else if (amp <= 23984.55577) {
+//            dec = 59.7769 + 0.00136017*amp;
+//        }
+//        else if (amp <=24454.80466) {
+//            dec = 20.9945 + 0.00297715*amp;
+//        }
+//        else {
+//            dec = -42.4221 + 0.00557036*amp;
+//        }
+
+        Log.i("TAG", "RAW AMP="+ amp);
+
         return  dec;
     }
 
@@ -144,6 +181,10 @@ public class audioThread implements Runnable {
         double amp =  getAmplitude();
         mEMA = EMA_FILTER * amp + (1.0 - EMA_FILTER) * mEMA;
         return mEMA;
+    }
+
+    private double map(double x, double in_min, double in_max, double out_min, double out_max) {
+        return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
     }
 
 }
