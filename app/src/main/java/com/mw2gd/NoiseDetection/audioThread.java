@@ -22,6 +22,7 @@ public class audioThread implements Runnable {
     static final private double EMA_FILTER = 0.4;
     private int flush = 0;
     ArrayList<Double> tmp = new ArrayList<Double>(100);
+    
 
     /*
      * Constructor is passed the relevant TextView
