@@ -4,4 +4,13 @@
     <string name="count_initial_value">0.00</string>
     <string name="button_label_count">Start Listening!</string>
     <string name="toast_message">Hello Toast!</string>
+
+    <string name="lbl_payment_details">Your Address: </string>
+    <string name="lbl_loca">Locality: </string>
+    <string name="lbl_city">city: </string>
+    <string name="lbl_state">State: </string>
+    <string name="country">Country: </string>
+    <string name="pincode">PinCode: </string>
+    <string name="dictrict">District: </string>
+    <string name="ques">  </string>
 </resources>

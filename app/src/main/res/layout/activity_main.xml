@@ -10,13 +10,14 @@
         android:id="@+id/button2"
         android:layout_width="171dp"
         android:layout_height="99dp"
+        android:layout_marginBottom="172dp"
         android:onClick="listen"
         android:text="@string/button_label_count"
+        android:textOff="Start Listening..."
+        android:textOn="Quit Listening"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:textOff="Start Listening..."
-        android:textOn="Quit Listening"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/audio_level"
@@ -31,4 +32,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/next_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Next"
+        tools:layout_editor_absoluteX="158dp"
+        tools:layout_editor_absoluteY="608dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

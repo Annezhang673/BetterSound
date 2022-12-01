@@ -5,11 +5,15 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.os.ResultReceiver;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -21,6 +25,12 @@ public class MainActivity extends AppCompatActivity {
     private static int MICROPHONE_PERMISSION_CODE = 200;
     audioThread t1; // This thread will read from Mic
 
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+    ProgressBar progressBar;
+    TextView textLatLong, address, postcode, locaity, state, district, country;
+    ResultReceiver resultReceiver;
+    Button next_button= (Button)findViewById(R.id.next_button);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +38,13 @@ public class MainActivity extends AppCompatActivity {
         if (isMicrophonePresent()) {
             getMicrophonePermission();
         }
+
+        next_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setContentView(R.layout.layout);
+            }
+        });
     }
 
     public void listen(View view) {
