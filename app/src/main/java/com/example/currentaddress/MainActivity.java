@@ -22,8 +22,16 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
+    FirebaseFirestore firestore;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     ProgressBar progressBar;
     TextView textLatLong, address, postcode, locaity, state, district, country;
@@ -105,6 +113,24 @@ public class MainActivity extends AppCompatActivity {
                             double longi = locationResult.getLocations().get(latestlocIndex).getLongitude();
                             textLatLong.setText(String.format("Latitude : %s\n Longitude: %s", lati, longi));
 
+                            firestore = FirebaseFirestore.getInstance();
+                            Map<String, Object> coordinate = new HashMap<>();
+                            coordinate.put("latitude", lati);
+                            coordinate.put("longitude", longi);
+                            coordinate.put("noise", "200");
+
+                            firestore.collection("test").add(coordinate).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                    Toast.makeText(getApplicationContext(), "Succes", Toast.LENGTH_LONG).show();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_LONG).show();
+                                }
+                            });
+
                             Location location = new Location("providerNA");
                             location.setLongitude(longi);
                             location.setLatitude(lati);
@@ -116,7 +142,6 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 }, Looper.getMainLooper());
-
     }
 
     private class AddressResultReceiver extends ResultReceiver {
