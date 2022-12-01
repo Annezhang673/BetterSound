@@ -109,12 +109,12 @@ public class audioThread implements Runnable {
             }
         }
 
-        // Wanted to check what ampl should be...
-        Double ave = 0.0;
-        for (int i = 0; i <10; i++) {
-            ave += tmp.get(i);
-        }
-        Log.i("TAG", "RAW AVE=" + ave/10);
+//        // Wanted to check what ampl should be...
+//        Double ave = 0.0;
+//        for (int i = 0; i <10; i++) {
+//            ave += tmp.get(i);
+//        }
+//        Log.i("TAG", "RAW AVE=" + ave/10);
 
         recorder.stop();
         recorder.release();
@@ -122,7 +122,7 @@ public class audioThread implements Runnable {
 
     private double getDecibels(){
         double amp = getAmplitudeEMA(); // ranges from 0-32767
-        tmp.add(0, amp);
+//        tmp.add(0, amp);
 
         double dec = 0;
 
