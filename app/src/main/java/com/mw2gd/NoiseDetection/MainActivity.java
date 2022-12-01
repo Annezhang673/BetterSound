@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
     ProgressBar progressBar;
     TextView textLatLong, address, postcode, locaity, state, district, country;
     ResultReceiver resultReceiver;
-    Button next_button= (Button)findViewById(R.id.next_button);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
             getMicrophonePermission();
         }
 
+        Button next_button= (Button)findViewById(R.id.next_button);
         next_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
