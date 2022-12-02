@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.ResultReceiver;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -160,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
                             firestore.collection("test").add(coordinate).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                 @Override
                                 public void onSuccess(DocumentReference documentReference) {
-                                    Toast.makeText(getApplicationContext(), "Succes", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
@@ -211,7 +212,13 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(Constants.RECEVIER, resultReceiver);
         intent.putExtra(Constants.LOCATION_DATA_EXTRA, location);
         startService(intent);
-
-
     }
+
+
+    public static void updateBackend() {
+        //Log.i("TAG", "Testing");
+        /* Update the backend here */
+    }
+
+
 }

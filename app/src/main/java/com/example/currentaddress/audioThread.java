@@ -130,7 +130,11 @@ public class audioThread implements Runnable {
                             Toast toast = Toast.makeText(context, "Careful! Audio level is too high. " + String.format("%.2f",level) + "db recorded!", Toast.LENGTH_LONG);
                             toast.show();
                             notified = true;
+
+                            // Runs this method from the Main Thread
+                            MainActivity.updateBackend();
                         }
+
                     }
                 });
             }
@@ -199,7 +203,7 @@ public class audioThread implements Runnable {
             dec = -5.09285564650298e-11*Math.pow((amp-24454.80466),3)+1.84053534832653e-06*Math.pow((amp-24454.80466),2)+0.00374031694844051*(amp-24454.80466)+93.800;
         }
 
-        Log.i("TAG", "RAW AMP="+ amp);
+        //Log.i("TAG", "RAW AMP="+ amp);
 
         return  dec;
     }
