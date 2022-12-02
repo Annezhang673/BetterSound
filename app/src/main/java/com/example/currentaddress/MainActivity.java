@@ -9,6 +9,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -36,6 +37,11 @@ public class MainActivity extends AppCompatActivity {
     ProgressBar progressBar;
     TextView textLatLong, address, postcode, locaity, state, district, country;
     ResultReceiver resultReceiver;
+    private MediaRecorder recorder;
+    private int i = 0;
+    private static int MICROPHONE_PERMISSION_CODE = 200;
+    audioThread t1; // This thread will read from Mic
+    private Handler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +59,12 @@ public class MainActivity extends AppCompatActivity {
         district = findViewById(R.id.textdistrict);
         state = findViewById(R.id.textstate);
 
+        if (isMicrophonePresent()) {
+            getMicrophonePermission();
+        }
+
+        mHandler = new Handler();
+
         findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,6 +80,32 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void listen(View view) {
+        if (i == 0) {
+            // Start audio Thread
+            TextView audio_level = (TextView) findViewById(R.id.audio_level);
+            t1 = new audioThread(getApplicationContext(), audio_level, mHandler);
+            t1.start();
+            i=1;
+        }
+        else {
+            i=0;
+            t1.interrupt();
+        }
+    }
+
+    private boolean isMicrophonePresent() {
+        return this.getPackageManager().hasSystemFeature(PackageManager.FEATURE_MICROPHONE);
+    }
+
+    private void getMicrophonePermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
+                == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(this, new String[]
+                    {Manifest.permission.RECORD_AUDIO}, MICROPHONE_PERMISSION_CODE);
+        }
     }
 
     @Override
