@@ -132,7 +132,10 @@ public class audioThread implements Runnable {
                             notified = true;
 
                             // Runs this method from the Main Thread
-                            MainActivity.updateBackend();
+
+                            // Would this work?
+                            MainActivity main = new MainActivity();
+                            main.getCurrentLocation();
                         }
 
                     }

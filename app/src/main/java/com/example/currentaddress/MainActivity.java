@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void getCurrentLocation() {
+    public void getCurrentLocation() {
         progressBar.setVisibility(View.VISIBLE);
         LocationRequest locationRequest = new LocationRequest();
         locationRequest.setInterval(10000);
@@ -214,11 +214,11 @@ public class MainActivity extends AppCompatActivity {
         startService(intent);
     }
 
-
-    public static void updateBackend() {
-        //Log.i("TAG", "Testing");
-        /* Update the backend here */
-    }
+//
+//    public static void updateBackend() {
+//        //Log.i("TAG", "Testing");
+//        /* Update the backend here */
+//    }
 
 
 }
