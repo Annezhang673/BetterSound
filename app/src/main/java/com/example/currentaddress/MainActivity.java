@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                             new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                             LOCATION_PERMISSION_REQUEST_CODE);
                 } else {
-                    getCurrentLocation();
+                    getCurrentLocation(-1);
                 }
             }
         });
@@ -114,14 +114,14 @@ public class MainActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE && grantResults.length > 0) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                getCurrentLocation();
+                getCurrentLocation(-1);
             } else {
                 Toast.makeText(this, "Permission is denied!", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    public void getCurrentLocation() {
+    public void getCurrentLocation(double noise) {
         progressBar.setVisibility(View.VISIBLE);
         LocationRequest locationRequest = new LocationRequest();
         locationRequest.setInterval(10000);
@@ -152,23 +152,25 @@ public class MainActivity extends AppCompatActivity {
                             double longi = locationResult.getLocations().get(latestlocIndex).getLongitude();
                             textLatLong.setText(String.format("Latitude : %s\n Longitude: %s", lati, longi));
 
-                            firestore = FirebaseFirestore.getInstance();
-                            Map<String, Object> coordinate = new HashMap<>();
-                            coordinate.put("latitude", lati);
-                            coordinate.put("longitude", longi);
-                            coordinate.put("noise", "200");
+                            if (noise >= 0) {
+                                firestore = FirebaseFirestore.getInstance();
+                                Map<String, Object> coordinate = new HashMap<>();
+                                coordinate.put("latitude", lati);
+                                coordinate.put("longitude", longi);
+                                coordinate.put("noise", noise);
 
-                            firestore.collection("test").add(coordinate).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                @Override
-                                public void onSuccess(DocumentReference documentReference) {
-                                    Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_LONG).show();
-                                }
-                            });
+                                firestore.collection("test").add(coordinate).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                    @Override
+                                    public void onSuccess(DocumentReference documentReference) {
+                                        Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                            }
 
                             Location location = new Location("providerNA");
                             location.setLongitude(longi);

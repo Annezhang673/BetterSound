@@ -135,7 +135,7 @@ public class audioThread implements Runnable {
 
                             // Would this work?
                             MainActivity main = new MainActivity();
-                            main.getCurrentLocation();
+                            main.getCurrentLocation(level);
                         }
 
                     }
