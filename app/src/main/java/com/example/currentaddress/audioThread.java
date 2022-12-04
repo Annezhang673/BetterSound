@@ -40,6 +40,7 @@ public class audioThread implements Runnable {
     Boolean notified = false;
 
 
+
     /*
      * Constructor is passed the relevant TextView
      */
@@ -127,6 +128,8 @@ public class audioThread implements Runnable {
 
                         /**** If Threshhold met, Query Backend ****/
                         if (level > 70 && !notified) {
+
+
                             Toast toast = Toast.makeText(context, "Careful! Audio level is too high. " + String.format("%.2f",level) + "db recorded!", Toast.LENGTH_LONG);
                             toast.show();
                             notified = true;
@@ -136,6 +139,7 @@ public class audioThread implements Runnable {
                             // Would this work?
                             MainActivity main = new MainActivity();
                             main.getCurrentLocation(level);
+
                         }
 
                     }
