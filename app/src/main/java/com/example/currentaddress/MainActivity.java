@@ -42,14 +42,16 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
     FirebaseFirestore firestore;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
-    ProgressBar progressBar;
-    TextView textLatLong, address, postcode, locaity, state, district, country;
+    static ProgressBar progressBar;
+    static TextView textLatLong, address, postcode, locaity, state, district, country;
     ResultReceiver resultReceiver;
     private MediaRecorder recorder;
     private int i = 0;
     private static int MICROPHONE_PERMISSION_CODE = 200;
     audioThread t1; // This thread will read from Mic
     private Handler mHandler;
+    static Vibrator v;
+    public static Context main;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +59,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         resultReceiver = new AddressResultReceiver(new Handler());
 
+        main = getApplicationContext();
+
         progressBar = findViewById(R.id.progress_circular);
         textLatLong = findViewById(R.id.textLatLong);
+        v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
         address = findViewById(R.id.textaddress);
         locaity = findViewById(R.id.textlocality);
@@ -128,6 +133,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+//    private void requestPermissions() {
+//        ActivityCompat.requestPermissions(this,
+//                new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+//    }
+
     public void getCurrentLocation(double noise) {
         progressBar.setVisibility(View.VISIBLE);
         LocationRequest locationRequest = new LocationRequest();
@@ -135,27 +145,35 @@ public class MainActivity extends AppCompatActivity {
         locationRequest.setFastestInterval(3000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
-        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        //Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         // Vibrate for 400 milliseconds
         v.vibrate(400);
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
+//        if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            // TODO: Consider calling
+//            //    ActivityCompat#requestPermissions
+//            // here to request the missing permissions, and then overriding
+//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//            //                                          int[] grantResults)
+//            // to handle the case where the user grants the permission. See the documentation
+//            // for ActivityCompat#requestPermissions for more details.
+//            return;
+//        }
+        if (ContextCompat.checkSelfPermission(main,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    LOCATION_PERMISSION_REQUEST_CODE);
         }
-        LocationServices.getFusedLocationProviderClient(MainActivity.this)
+
+        LocationServices.getFusedLocationProviderClient(main)
                 .requestLocationUpdates(locationRequest, new LocationCallback() {
 
                     @Override
                     public void onLocationResult(LocationResult locationResult) {
                         super.onLocationResult(locationResult);
-                        LocationServices.getFusedLocationProviderClient(getApplicationContext())
+                        LocationServices.getFusedLocationProviderClient(main)
                                 .removeLocationUpdates(this);
                         if (locationResult != null && locationResult.getLocations().size() > 0) {
                             int latestlocIndex = locationResult.getLocations().size() - 1;
@@ -173,12 +191,12 @@ public class MainActivity extends AppCompatActivity {
                                 firestore.collection("test").add(coordinate).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                     @Override
                                     public void onSuccess(DocumentReference documentReference) {
-                                        Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(main, "Success", Toast.LENGTH_LONG).show();
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(main, "Fail", Toast.LENGTH_LONG).show();
                                     }
                                 });
                             } else {
@@ -209,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
                                                     for (QueryDocumentSnapshot document : task.getResult()) {
                                                         double la = (double) document.get("latitude");
                                                         if (la >= lati-10 && la <= lati+10) {
-                                                            Toast.makeText(MainActivity.this, "Avoid This Area!!", Toast.LENGTH_SHORT).show();
+                                                            Toast.makeText(main, "Avoid This Area!!", Toast.LENGTH_SHORT).show();
                                                             break;
                                                         }
 //                                                        Log.d("hello", " => " + document.getData());
@@ -223,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
                             Location location = new Location("providerNA");
                             location.setLongitude(longi);
                             location.setLatitude(lati);
-                            fetchaddressfromlocation(location);
+                            //fetchaddressfromlocation(location);
 
                         } else {
                             progressBar.setVisibility(View.GONE);
@@ -256,10 +274,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void fetchaddressfromlocation(Location location) {
-        Intent intent = new Intent(this, FetchAddressIntentServices.class);
+        Intent intent = new Intent(main, FetchAddressIntentServices.class);
         intent.putExtra(Constants.RECEVIER, resultReceiver);
         intent.putExtra(Constants.LOCATION_DATA_EXTRA, location);
-        startService(intent);
+        main.startService(intent);
     }
 
 //

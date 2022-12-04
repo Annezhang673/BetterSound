@@ -114,7 +114,7 @@ public class audioThread implements Runnable {
                 flush = 0;
             }
 
-            if (level < 70) {
+            if (level < -100) {
                 notified = false;
             }
 
@@ -127,7 +127,7 @@ public class audioThread implements Runnable {
                         audio_level.setText(String.format(Locale.getDefault(), "%.2f", level));
 
                         /**** If Threshhold met, Query Backend ****/
-                        if (level > 70 && !notified) {
+                        if (level > -1 && !notified) {
 
 
                             Toast toast = Toast.makeText(context, "Careful! Audio level is too high. " + String.format("%.2f",level) + "db recorded!", Toast.LENGTH_LONG);
