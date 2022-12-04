@@ -24,10 +24,15 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -170,8 +175,45 @@ public class MainActivity extends AppCompatActivity {
                                         Toast.makeText(getApplicationContext(), "Fail", Toast.LENGTH_LONG).show();
                                     }
                                 });
+                            } else {
+                                firestore = FirebaseFirestore.getInstance();
+                                firestore.collection("test")
+//                                        .document("JA74xzagNxEnJfsEwZG4")
+//                                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                                            @Override
+//                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                                                if (task.isSuccessful()) {
+//                                                    DocumentSnapshot doc = task.getResult();
+//                                                    if (doc.exists()) {
+//                                                        double x = (double) doc.get("longitude") + 3.345;
+//                                                        Log.d("hello", "The value is: " + x);
+//                                                    } else {
+//                                                        Log.d("Document", "No data");
+//                                                    }
+//                                                }
+//                                            }
+//                                        });
+                                        .whereGreaterThanOrEqualTo("longitude", longi-10)
+                                        .whereLessThanOrEqualTo("longitude", longi+10)
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if (task.isSuccessful()) {
+                                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                                        double la = (double) document.get("latitude");
+                                                        if (la >= lati-10 && la <= lati+10) {
+                                                            Toast.makeText(MainActivity.this, "Avoid This Area!!", Toast.LENGTH_SHORT).show();
+                                                            break;
+                                                        }
+//                                                        Log.d("hello", " => " + document.getData());
+                                                    }
+                                                } else {
+                                                    Log.d("Document", "Error getting documents: ", task.getException());
+                                                }
+                                            }
+                                        });
                             }
-
                             Location location = new Location("providerNA");
                             location.setLongitude(longi);
                             location.setLatitude(lati);
@@ -205,8 +247,6 @@ public class MainActivity extends AppCompatActivity {
             }
             progressBar.setVisibility(View.GONE);
         }
-
-
     }
 
     private void fetchaddressfromlocation(Location location) {
