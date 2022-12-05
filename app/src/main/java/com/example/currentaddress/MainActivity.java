@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     private Handler mHandler;
     static Vibrator v;
     public static Context main;
+    private Boolean checked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,18 +82,18 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ContextCompat.checkSelfPermission(getApplicationContext(),
+                if (!checked && ContextCompat.checkSelfPermission(getApplicationContext(),
                         Manifest.permission.ACCESS_FINE_LOCATION)
                         != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(MainActivity.this,
                             new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                             LOCATION_PERMISSION_REQUEST_CODE);
+                    checked = true;
                 } else {
                     getCurrentLocation(-1);
                 }
             }
         });
-
     }
 
     public void listen(View view) {
@@ -139,15 +140,12 @@ public class MainActivity extends AppCompatActivity {
 //    }
 
     public void getCurrentLocation(double noise) {
-        progressBar.setVisibility(View.VISIBLE);
+        //progressBar.setVisibility(View.VISIBLE);
         LocationRequest locationRequest = new LocationRequest();
         locationRequest.setInterval(10000);
         locationRequest.setFastestInterval(3000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
-        //Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        // Vibrate for 400 milliseconds
-        v.vibrate(400);
 
 //        if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 //            // TODO: Consider calling
@@ -159,12 +157,13 @@ public class MainActivity extends AppCompatActivity {
 //            // for ActivityCompat#requestPermissions for more details.
 //            return;
 //        }
-        if (ContextCompat.checkSelfPermission(main,
+        if (!checked && ContextCompat.checkSelfPermission(main,
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     LOCATION_PERMISSION_REQUEST_CODE);
+            checked = true;
         }
 
         LocationServices.getFusedLocationProviderClient(main)
@@ -176,12 +175,16 @@ public class MainActivity extends AppCompatActivity {
                         LocationServices.getFusedLocationProviderClient(main)
                                 .removeLocationUpdates(this);
                         if (locationResult != null && locationResult.getLocations().size() > 0) {
+
                             int latestlocIndex = locationResult.getLocations().size() - 1;
                             double lati = locationResult.getLocations().get(latestlocIndex).getLatitude();
                             double longi = locationResult.getLocations().get(latestlocIndex).getLongitude();
                             textLatLong.setText(String.format("Latitude : %s\n Longitude: %s", lati, longi));
 
                             if (noise >= 0) {
+
+                                v.vibrate(400);
+
                                 firestore = FirebaseFirestore.getInstance();
                                 Map<String, Object> coordinate = new HashMap<>();
                                 coordinate.put("latitude", lati);
@@ -191,11 +194,13 @@ public class MainActivity extends AppCompatActivity {
                                 firestore.collection("test").add(coordinate).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                     @Override
                                     public void onSuccess(DocumentReference documentReference) {
+
                                         Toast.makeText(main, "Success", Toast.LENGTH_LONG).show();
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
+
                                         Toast.makeText(main, "Fail", Toast.LENGTH_LONG).show();
                                     }
                                 });
@@ -224,11 +229,22 @@ public class MainActivity extends AppCompatActivity {
                                             @Override
                                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                 if (task.isSuccessful()) {
+
+                                                    Log.d("TAG", "TESTPOINT A");
+                                                    if (task.getResult().size() == 0) {
+                                                        Log.d("TAG", "TESTPOINT B");
+                                                        Toast.makeText(main, "Area does NOT have history of noise.", Toast.LENGTH_LONG).show();
+                                                    }
                                                     for (QueryDocumentSnapshot document : task.getResult()) {
                                                         double la = (double) document.get("latitude");
                                                         if (la >= lati-10 && la <= lati+10) {
-                                                            Toast.makeText(main, "Avoid This Area!!", Toast.LENGTH_SHORT).show();
+                                                            v.vibrate(400);
+                                                            Toast.makeText(main, "Avoid This Area!! Associated with high noise levels.", Toast.LENGTH_LONG).show();
                                                             break;
+                                                        }
+                                                        else {
+                                                            Log.d("TAG", "TESTPOINT C");
+                                                            Toast.makeText(main, "Area does not have history of noise.", Toast.LENGTH_SHORT).show();
                                                         }
 //                                                        Log.d("hello", " => " + document.getData());
                                                     }
@@ -238,14 +254,15 @@ public class MainActivity extends AppCompatActivity {
                                             }
                                         });
                             }
+                            
                             Location location = new Location("providerNA");
                             location.setLongitude(longi);
                             location.setLatitude(lati);
                             //fetchaddressfromlocation(location);
 
+                            //progressBar.setVisibility(View.GONE);
                         } else {
-                            progressBar.setVisibility(View.GONE);
-
+                            //progressBar.setVisibility(View.GONE);
                         }
                     }
                 }, Looper.getMainLooper());
