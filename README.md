@@ -1,6 +1,4 @@
-# Get-Current-Location-Address-using-latitude-and-longitude
-
- Dependency :
+Dependency :
  
      implementation 'com.google.android.gms:play-services-location:17.0.0'
 
@@ -11,5 +9,3 @@
 - State 
 - Country
 - Pincode 
-
-<img src="Screenshot_20200625-142130.png" alt="Girl in a jacket" width="350" height="750">
